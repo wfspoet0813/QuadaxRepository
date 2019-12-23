@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "masterMind", "masterMind\masterMind.csproj", "{877A3643-945E-4936-9263-FAA9D8D6C52D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{877A3643-945E-4936-9263-FAA9D8D6C52D}.Debug|anycpu.ActiveCfg = Debug|anycpu
+		{877A3643-945E-4936-9263-FAA9D8D6C52D}.Debug|anycpu.Build.0 = Debug|anycpu
+		{877A3643-945E-4936-9263-FAA9D8D6C52D}.Release|anycpu.ActiveCfg = Release|anycpu
+		{877A3643-945E-4936-9263-FAA9D8D6C52D}.Release|anycpu.Build.0 = Release|anycpu
+	EndGlobalSection
+EndGlobal
