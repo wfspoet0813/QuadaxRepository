@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace masterMind
 {
@@ -15,7 +16,7 @@ namespace masterMind
 
             m_CurrentNumberToGuess = new List<int>();
 
-            for (int indx = 0; indx < 4; indx++)
+            for (int indx = 3; indx >= 0; indx--)
             {
                 m_CurrentNumberToGuess.Add(m_randomNumberGenerator.Next(1, 6));
             }
@@ -26,7 +27,7 @@ namespace masterMind
         {
             m_CurrentNumberToGuess = new List<int>();
 
-            for (int indx = 0; indx < 4; indx++)
+            for (int indx = 3; indx >= 0; indx--)
             {
                 m_CurrentNumberToGuess.Add(m_randomNumberGenerator.Next(1, 6));
             }
@@ -52,25 +53,42 @@ namespace masterMind
 
         public List<String> testForMatch()
         {
-            List<string> MtchResult = new List<string>();
+            Regex RegexAllPluses = new Regex(@"\+{4,4}");
 
-            for( int indx = 0; indx < 4;indx++)
+            List<string> guessMatch = new List<string>();
+
+            for (var guessIndex = 3; guessIndex >= 0; guessIndex--)
             {
-               if(m_CurrentGuess[3-indx] == m_CurrentNumberToGuess[indx])
+                if (m_CurrentGuess[guessIndex] == m_CurrentNumberToGuess[guessIndex])
                 {
-                    MtchResult.Add( "+");
+                    guessMatch.Add("+");
                 }
-               else if(m_CurrentNumberToGuess.Contains(m_CurrentGuess[3-indx]))
+                else 
                 {
-                    MtchResult.Add("-");
+                    guessMatch.Add(" ");
                 }
-               else
+
+            }
+            String theGuessAsString = String.Join("", guessMatch.ToArray());
+
+            for(var item=3; item>=0; item--)
+            {
+                if(guessMatch[item] == " ")
                 {
-                    MtchResult.Add(" ");
+                    // gigits don't match
+                    for(var innerItem=3;innerItem >= 0; innerItem--)
+                    {
+                        if(item != innerItem)
+                        {
+                            if(m_CurrentGuess[item] == m_CurrentNumberToGuess[innerItem])
+                            {
+                                guessMatch[innerItem] = "-";
+                            }
+                        }
+                    }
                 }
             }
-
-            return MtchResult;
+            return guessMatch;
         }
 
         public String dumpSecret()
@@ -78,7 +96,6 @@ namespace masterMind
             String theSecret = "";
 
             List<int> localGuess = new List<int>(m_CurrentNumberToGuess);
-            localGuess.Reverse();
             foreach(var item in (localGuess))
             {
                 theSecret += item.ToString("D");
@@ -93,10 +110,11 @@ namespace masterMind
         public static void Main(string[] args)
         {
             MasterMindEngine theGame = new MasterMindEngine();
-            Console.WriteLine("The secret number " + theGame.dumpSecret());
+            // Console.WriteLine("The secret number " + theGame.dumpSecret());
 
-            for (int attempt = 0; attempt < 10; attempt++)
+            for (int attempt = 1; attempt <= 10; attempt++)
             {
+                Console.WriteLine("Attempt # {0}", attempt);
                 Console.Write("Enter guess: ");
                 var userResponse = Console.ReadLine();
                 List<int> aGuess = new List<int>();
@@ -126,6 +144,7 @@ namespace masterMind
                 else
                 {
                     Console.Write("Incorrect '");
+                    result.Reverse();
                     foreach(var eachDigit in result)
                     {
                         Console.Write(eachDigit);
@@ -133,6 +152,7 @@ namespace masterMind
                     Console.WriteLine("'");
                 }
             }
+            Console.WriteLine("You lose!! " + theGame.dumpSecret());
         }
     }
 }
